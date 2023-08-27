@@ -23,6 +23,9 @@ CAR_LIST = ['0000',
 
 
 def check_path():
+    """
+    检查工作目录
+    """
     global WORK_SPACE, WORK_TMP
     # 如果没有定义工作目录，则将脚本文件所在目录的父目录视作工作目录
     if WORK_SPACE.isspace():
@@ -46,38 +49,44 @@ def categorize():
     根据文件名
     移动本地文件
     """
-    # 预处理
+    # e.g. 20231231-1001-1234567
     reg = r'\d{8}-\d{4}-\d{7}'
     err_count = 0
     for item in os.scandir(WORK_TMP):
-        if len(item.name) <= 0:
-            continue
-        if re.match(reg, item.name) is None:
-            continue
         # 检测目录文件
         if os.path.isdir(item.path):
             print("    Warning: It is dir：" + item.name)
             err_count += 1
+
+        # 检测文件命名是否合规
+        if len(item.name) <= 0:
+            continue
+        if re.match(reg, item.name) is None:
+            continue
+
         # 车辆编号核查
         car_no = item.name.split("-")[1]
         if car_no not in CAR_LIST:
             print("    Error: Not in car list: " + item.name)
             err_count += 1
+
         # 本地文件是否重复
         p = os.path.join(WORK_SPACE, car_no, item.name)
         if os.path.exists(p):
             print("    Error: Local file is exist: " + item.name)
             err_count += 1
+
     if err_count > 0:
         return 0
 
-    # 遍历待处理文件
+    # 执行文件移动
     for item in os.scandir(WORK_TMP):
-        if item.name[0] not in "0123456789":
+        if len(item.name) <= 0:
+            continue
+        if re.match(reg, item.name) is None:
             continue
         print(item.name)
         car_no = item.name.split("-")[1]
-        # 文件移动
         shutil.move(item.path, os.path.join(WORK_SPACE, car_no))
 
 
