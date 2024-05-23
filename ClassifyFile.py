@@ -14,9 +14,9 @@ CONF_WORK_SPACE = "C:\\Users\\ven\\OneDrive - 东南\\单据扫描\\作业单"
 # 编号白名单
 CONF_CAR_LIST_IN = ['0000',
                     '1010', '1013',
-                    '1001', '1008', '1012',
+                    '1001', '1008',
                     '1003', '1005',
-                    '1015', '1016',
+                    '1015',
                     '2001', '2002', '2003', '2005'
                     ]
 CONF_CAR_LIST_OUT = ['刘永杰', '李新伟']
@@ -37,9 +37,9 @@ def check_path():
     if CONF_WORK_SPACE.isspace():
         class_file_path = os.path.realpath(__file__)
         tcp = os.path.abspath(os.path.join(
-            class_file_path
-            , ".."
-            , ".."
+            class_file_path,
+            "..",
+            ".."
         ))
         if not os.path.basename(tcp) == "作业单":
             print(tcp)
