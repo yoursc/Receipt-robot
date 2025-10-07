@@ -67,6 +67,7 @@ def check_base_dir_path():
 
     global CONF_WORK_SPACE, CAR_LIST, ERR_FLAG
     ERR_FLAG = 0
+    console.log('=' * 40)
     console.log("[green]检查工作目录")
     # 检查工作目录是否存在
     if not Path(CONF_WORK_SPACE).exists():
@@ -105,6 +106,7 @@ def check_file_duplication():
     """
     global ERR_FLAG
     ERR_FLAG = 0
+    console.log('=' * 40)
     console.log("[green]检查文件重复")
     # e.g. 20231231-1001-1234567
     reg = r'\d{8}-\d{4}-\d{7}'
@@ -157,7 +159,8 @@ def check_file_duplication():
                 mtime_str,
                 result_str
             )
-    console.print(table)
+    if len(table.rows) > 0:
+        console.print(table)
 
     console.log("检查文件重复:完成")
     if ERR_FLAG > 0:
@@ -168,6 +171,7 @@ def check_file_duplication():
 
 def move_file():
     global ERR_FLAG
+    console.log('=' * 40)
     console.log("[green]移动文件")
     # e.g. 20231231-1001-1234567
     reg = r'\d{8}-\d{4}-\d{7}'
